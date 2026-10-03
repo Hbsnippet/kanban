@@ -1,19 +1,10 @@
+import { Board } from "@/components/board/Board"
+import type { Task } from "@/types/task"
 
-// import { Board } from './components/board/Board'
-import { Column } from './components/column/Column'
-
-import './App.css'
-
-
-
-
+const tasks: Task[] = []
 
 function App() {
- 
- return (
-  <div> <Column></Column> </div>
- )
-  
+  return <Board tasks={tasks} />
 }
 
 export default App
