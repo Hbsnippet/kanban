@@ -1,13 +1,16 @@
 export type Status = "todo" | "doing" | "done"
 
 export type Task = {
-  id: string
+  id: number
   title: string
   status: Status
+  priority: number
+  description: string
 }
 
-export const columns: { status: Status; title: string }[] = [
-  { status: "todo", title: "To Do" },
-  { status: "doing", title: "In Progress" },
-  { status: "done", title: "Done" },
-]
+
+export type ColumnData = {
+  status: Status;
+  title: string;
+  tasks: Task[];
+};
