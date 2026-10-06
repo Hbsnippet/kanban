@@ -1,7 +1,8 @@
 import type { Task, ColumnData } from "@/types/task";
 import { Column } from "../column/Column";
+import {useState} from "react";
 
-const task : Task [] = [
+const initialTask : Task [] = [
   {id: 1, title: "To Do", status: "todo", priority: 10, description: "Learn CRUD"},
   {id: 2, title: "In Progress", status: "doing", priority: 20, description: "Learn TypeScript"},
   {id: 3, title: "Done", status: "done", priority: 30, description: "Learn React"},
@@ -16,10 +17,24 @@ const task : Task [] = [
 ]
 
 
+
+
+
+
 const statuses = ["todo", "doing", "done"] as const;
 
+export function Board () {
+
+
+const [tasks, setTasks] = useState(initialTask);
+
+const deleteTask = (id: number) => {
+  setTasks(tasks.filter((task) => task.id !== id))
+}
+
+
 const columns: ColumnData[] = statuses.map((status) => {
-  const taskColumn = task.filter((task) => task.status === status).sort((a, b) => b.priority - a.priority);
+  const taskColumn = tasks.filter((task) => task.status === status).sort((a, b) => b.priority - a.priority);
   return ({
     status,
     title: status,
@@ -27,11 +42,10 @@ const columns: ColumnData[] = statuses.map((status) => {
   })
 })
 
-export function Board () {
   return (
     <div className="flex min-h-screen items-start gap-4 bg-muted/40 p-6">
       {columns.map((column) => (
-        <Column key={column.status} column={column} />
+        <Column key={column.status} column={column} onDelete={deleteTask} />
       ))}
     </div>
   )

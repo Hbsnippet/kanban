@@ -9,6 +9,16 @@ export type Task = {
 }
 
 
+export type TaskProps = {
+  task: Task;
+  onDelete: (id: number) => void;
+};
+
+export type ColumnProps = {
+  column: ColumnData;
+  onDelete: (id: number) => void;
+};
+
 export type ColumnData = {
   status: Status;
   title: string;

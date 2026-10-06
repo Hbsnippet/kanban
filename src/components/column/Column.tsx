@@ -1,5 +1,5 @@
 import { Circle, CircleCheck, LoaderCircle } from "lucide-react";
-import type { ColumnData } from "@/types/task";
+import type {  ColumnProps } from "@/types/task";
 import { Task } from "../task/Task";
 
 const stage = {
@@ -8,7 +8,7 @@ const stage = {
   done: { icon: CircleCheck, mark: "bg-emerald-500/15 text-emerald-600" },
 } as const;
 
-export function Column({ column }: { column: ColumnData }) {
+export function Column( { column, onDelete }: ColumnProps ) { 
   const { icon: Icon, mark } = stage[column.status];
 
   return (
@@ -22,7 +22,7 @@ export function Column({ column }: { column: ColumnData }) {
       </div>
       <div className="flex flex-col gap-2">
         {column.tasks.map((task) => (
-          <Task key={task.id} task={task} />
+          <Task key={task.id} task={task} onDelete={onDelete} />
         ))}
       </div>
     </div>
