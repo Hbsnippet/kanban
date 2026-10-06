@@ -1,6 +1,8 @@
 import type { Task, ColumnData } from "@/types/task";
 import { Column } from "../column/Column";
 import {useState} from "react";
+import { Button } from "../ui/button";
+
 
 const initialTask : Task [] = [
   {id: 1, title: "To Do", status: "todo", priority: 10, description: "Learn CRUD"},
@@ -15,7 +17,6 @@ const initialTask : Task [] = [
   {id: 10, title: "To Do", status: "todo", priority: 100, description: "Learn React Router"},
 
 ]
-
 
 
 
@@ -48,10 +49,21 @@ const columns: ColumnData[] = statuses.map((status) => {
 })
 
   return (
-    <div className="flex min-h-screen items-start gap-5 bg-muted/50 p-8">
-      {columns.map((column) => (
-        <Column key={column.status} column={column} onDelete={deleteTask} onUpdate={updateTask} />
-      ))}
+    <div className="flex min-h-screen flex-col bg-muted/50 p-8">
+      <div className="mb-5 flex justify-end">
+        <Button
+          type="button"
+          variant="default"
+          size="sm"
+        >
+          Add Task
+        </Button>
+      </div>
+      <div className="flex items-start gap-5">
+        {columns.map((column) => (
+          <Column key={column.status} column={column} onDelete={deleteTask} onUpdate={updateTask} />
+        ))}
+      </div>
     </div>
   )
 }
