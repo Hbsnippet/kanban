@@ -8,21 +8,21 @@ const stage = {
   done: { icon: CircleCheck, mark: "bg-emerald-500/15 text-emerald-600" },
 } as const;
 
-export function Column( { column, onDelete }: ColumnProps ) { 
+export function Column({ column, onDelete, onUpdate}: ColumnProps) { 
   const { icon: Icon, mark } = stage[column.status];
 
   return (
-    <div className="flex min-w-72 flex-1 flex-col rounded-xl bg-muted p-3">
-      <div className="mb-3 flex items-center gap-2 px-1">
-        <span className={`flex size-7 items-center justify-center rounded-lg ${mark}`}>
-          <Icon className="size-4" />
+    <div className="flex min-w-80 flex-1 flex-col rounded-2xl bg-background/80 p-4 ring-1 ring-border">
+      <div className="mb-4 flex items-center gap-3 px-1">
+        <span className={`flex size-10 items-center justify-center rounded-xl ${mark}`}>
+          <Icon className="size-5" />
         </span>
-        <h2 className="text-sm font-medium capitalize">{column.title}</h2>
-        <p className="ml-auto text-xs text-muted-foreground">{column.tasks.length} tasks</p>
+        <h2 className="text-base font-medium capitalize">{column.title}</h2>
+        <p className="ml-auto text-sm text-muted-foreground">{column.tasks.length} tasks</p>
       </div>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-3">
         {column.tasks.map((task) => (
-          <Task key={task.id} task={task} onDelete={onDelete} />
+          <Task key={task.id} task={task} onDelete={onDelete} onUpdate={onUpdate} />
         ))}
       </div>
     </div>

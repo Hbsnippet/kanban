@@ -1,3 +1,5 @@
+
+
 export type Status = "todo" | "doing" | "done"
 
 export type Task = {
@@ -12,11 +14,13 @@ export type Task = {
 export type TaskProps = {
   task: Task;
   onDelete: (id: number) => void;
+  onUpdate: (id: number, description: string) => void;
 };
 
 export type ColumnProps = {
   column: ColumnData;
   onDelete: (id: number) => void;
+  onUpdate: (id: number, description: string) => void;
 };
 
 export type ColumnData = {

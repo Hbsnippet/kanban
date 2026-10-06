@@ -32,6 +32,11 @@ const deleteTask = (id: number) => {
   setTasks(tasks.filter((task) => task.id !== id))
 }
 
+const updateTask = (id: number, description: string) => {
+  setTasks((current) => current.map((task) => task.id === id ? { ...task, description } : task))
+};
+
+
 
 const columns: ColumnData[] = statuses.map((status) => {
   const taskColumn = tasks.filter((task) => task.status === status).sort((a, b) => b.priority - a.priority);
@@ -43,9 +48,9 @@ const columns: ColumnData[] = statuses.map((status) => {
 })
 
   return (
-    <div className="flex min-h-screen items-start gap-4 bg-muted/40 p-6">
+    <div className="flex min-h-screen items-start gap-5 bg-muted/50 p-8">
       {columns.map((column) => (
-        <Column key={column.status} column={column} onDelete={deleteTask} />
+        <Column key={column.status} column={column} onDelete={deleteTask} onUpdate={updateTask} />
       ))}
     </div>
   )
