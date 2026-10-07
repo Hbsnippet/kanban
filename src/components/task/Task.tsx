@@ -3,10 +3,15 @@ import { Button } from "../ui/button"
 import { MinusIcon, PencilIcon, PlusIcon, TrashIcon } from "lucide-react";
 import { useRef, useState, type FocusEvent } from "react";
 import { Input } from "../../components/ui/input"
+import { useDraggable } from "@dnd-kit/react";
 
 
 
 export function Task({ task, onDelete, onUpdate, onUpdateDescription, onPriorityChange}: TaskProps) {
+
+  const { ref } = useDraggable({
+    id: task.id,
+  });
 
   const [isEditing, setIsEditing] = useState(false);
   // Drafts live here, not on the board. Typing updates this card only.
@@ -74,6 +79,7 @@ export function Task({ task, onDelete, onUpdate, onUpdateDescription, onPriority
 
   return (
     <div
+      ref={ref}
       className={`group rounded-2xl border bg-card p-4 shadow-sm transition-colors ${
         isEditing ? "border-ring ring-3 ring-ring/25" : "hover:border-foreground/15"
       }`}

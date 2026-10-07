@@ -1,6 +1,7 @@
 import { Circle, CircleCheck, LoaderCircle } from "lucide-react";
-import type {  ColumnProps } from "@/types/task";
+import type {  ColumnProps} from "@/types/task";
 import { Task } from "../task/Task";
+import { useDroppable } from "@dnd-kit/react";
 
 const stage = {
   todo: { icon: Circle, mark: "bg-zinc-500/15 text-zinc-600" },
@@ -9,10 +10,14 @@ const stage = {
 } as const;
 
 export function Column({ column, onDelete, onUpdate, onUpdateDescription, onPriorityChange}: ColumnProps) { 
+
+  const { ref } = useDroppable({
+    id: column.status,
+  });
   const { icon: Icon, mark } = stage[column.status];
 
   return (
-    <div className="flex min-w-80 flex-1 flex-col rounded-2xl bg-background/80 p-4 ring-1 ring-border">
+    <div ref={ref} className="flex min-w-80 flex-1 flex-col rounded-2xl bg-background/80 p-4 ring-1 ring-border">
       <div className="mb-4 flex items-center gap-3 px-1">
         <span className={`flex size-10 items-center justify-center rounded-xl ${mark}`}>
           <Icon className="size-5" />

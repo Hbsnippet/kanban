@@ -1,9 +1,9 @@
-import type { Task as TypeTask, ColumnData, AddTaskData } from "@/types/task";
+import type { Task as TypeTask, ColumnData, AddTaskData , Status} from "@/types/task";
 import { Column } from "../column/Column";
 import {useState, useEffect} from "react";
 import { Button } from "../ui/button";
 import { AddTaskForm } from "../add-task/addTask";
-
+import { DragDropProvider } from "@dnd-kit/react";
 
 
 
@@ -69,6 +69,9 @@ const updatePriority = (id: number, newPriority: number) => {
   setTasks((current) => current.map((task) => task.id === id ? {...task, priority: newPriority} : task))
 }
 
+const updateStatus = (id: number, newStatus: Status) => {
+  setTasks((current) => current.map((task) => task.id === id? {...task, status: newStatus}: task))
+}
 
 useEffect ( () => {
   localStorage.setItem("Task", JSON.stringify(tasks))
@@ -85,6 +88,14 @@ const columns: ColumnData[] = statuses.map((status) => {
 })
 
   return (
+    <DragDropProvider onDragEnd={(event) => {
+      const {source, target} = event.operation;
+      if (source && target) {
+        const sourceId = Number(source.id);
+        const targetStatus = target.id as Status;
+        updateStatus(sourceId, targetStatus);
+      }
+    }}>
     <div className="flex min-h-screen flex-col bg-muted/50 p-8">
       <div className="mb-5 flex justify-end">
         <Button
@@ -108,9 +119,10 @@ const columns: ColumnData[] = statuses.map((status) => {
 
       <div className="flex items-start gap-5">
         {columns.map((column) => (
-          <Column key={column.status} column={column} onDelete={deleteTask} onUpdate={updateTask} onUpdateDescription={updateDescription} onPriorityChange={updatePriority}/>
+          <Column key={column.status} column={column} onDelete={deleteTask} onUpdate={updateTask} onUpdateDescription={updateDescription} onPriorityChange={updatePriority} />
         ))}
       </div>
     </div>
+    </DragDropProvider>
   )
 }
