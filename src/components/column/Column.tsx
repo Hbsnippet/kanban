@@ -8,7 +8,7 @@ const stage = {
   done: { icon: CircleCheck, mark: "bg-emerald-500/15 text-emerald-600" },
 } as const;
 
-export function Column({ column, onDelete, onUpdate}: ColumnProps) { 
+export function Column({ column, onDelete, onUpdate, onUpdateDescription, onPriorityChange}: ColumnProps) { 
   const { icon: Icon, mark } = stage[column.status];
 
   return (
@@ -22,7 +22,7 @@ export function Column({ column, onDelete, onUpdate}: ColumnProps) {
       </div>
       <div className="flex flex-col gap-3">
         {column.tasks.map((task) => (
-          <Task key={task.id} task={task} onDelete={onDelete} onUpdate={onUpdate} />
+          <Task key={task.id} task={task} onDelete={onDelete} onUpdate={onUpdate} onUpdateDescription={onUpdateDescription} onPriorityChange={onPriorityChange}/>
         ))}
       </div>
     </div>

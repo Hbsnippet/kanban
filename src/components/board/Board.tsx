@@ -1,20 +1,23 @@
-import type { Task, ColumnData } from "@/types/task";
+import type { Task as TypeTask, ColumnData, AddTaskData } from "@/types/task";
 import { Column } from "../column/Column";
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import { Button } from "../ui/button";
+import { AddTaskForm } from "../add-task/addTask";
 
 
-const initialTask : Task [] = [
-  {id: 1, title: "To Do", status: "todo", priority: 10, description: "Learn CRUD"},
-  {id: 2, title: "In Progress", status: "doing", priority: 20, description: "Learn TypeScript"},
-  {id: 3, title: "Done", status: "done", priority: 30, description: "Learn React"},
-  {id: 4, title: "To Do", status: "todo", priority: 40, description: "Learn Next.js"},
-  {id: 5, title: "In Progress", status: "doing", priority: 50, description: "Learn Tailwind CSS"},
-  {id: 6, title: "Done", status: "done", priority: 60, description: "Learn Shadcn/UI"},
-  {id: 7, title: "To Do", status: "todo", priority: 70, description: "Learn Framer Motion"},
-  {id: 8, title: "In Progress", status: "doing", priority: 80, description: "Learn React Query"},
-  {id: 9, title: "Done", status: "done", priority: 90, description: "Learn React Hook Form"},
-  {id: 10, title: "To Do", status: "todo", priority: 100, description: "Learn React Router"},
+
+
+const initialTask : TypeTask [] = [
+  {id: 1, title: "Learn CRUD", status: "todo", priority: 10, description: "Learn CRUD and make projects"},
+  {id: 2, title: "Learn TypeScript", status: "doing", priority: 20, description: "Learn TypeScript and make project using it"},
+  {id: 3, title: "Learn React", status: "done", priority: 30, description: "Learn React and make project using it"},
+  {id: 4, title: "Learn Next.js", status: "todo", priority: 40, description: "Learn Next.js and make project using it"},
+  {id: 5, title: "Learn Tailwind CSS", status: "doing", priority: 50, description: "Learn Tailwind CSS and make project using it"},
+  {id: 6, title: "Learn Shadcn/UI", status: "done", priority: 60, description: "Learn Shadcn/UI and make project using it"},
+  {id: 7, title: "Learn Framer Motion", status: "todo", priority: 70, description: "Learn Framer Motion and make project using it"},
+  {id: 8, title: "Learn React Query", status: "doing", priority: 80, description: "Learn React Query and make project using it"},
+  {id: 9, title: "Learn React Hook Form", status: "done", priority: 90, description: "Learn React Hook Form and make project using it"},
+  {id: 10, title: "Learn React Router", status: "todo", priority: 100, description: "Learn React Router and make project using it"},
 
 ]
 
@@ -25,18 +28,51 @@ const initialTask : Task [] = [
 const statuses = ["todo", "doing", "done"] as const;
 
 export function Board () {
+ 
 
 
-const [tasks, setTasks] = useState(initialTask);
+
+const [isAdding, setIsAdding] = useState(false);
+
+
+const [tasks, setTasks] = useState<TypeTask[]>(() =>  {
+    const saved = localStorage.getItem("Task")
+
+if (saved !== null) {
+  return JSON.parse(saved)
+} else {
+  return initialTask;
+}
+})
 
 const deleteTask = (id: number) => {
   setTasks(tasks.filter((task) => task.id !== id))
 }
 
-const updateTask = (id: number, description: string) => {
+const updateTask = (id: number, title: string) => {
+  setTasks((current) => current.map((task) => task.id === id ? { ...task, title } : task))
+};
+
+// Same update as the title: find this task and replace one field.
+// Description gets its own function so a description save cannot overwrite the title.
+const updateDescription = (id: number, description: string) => {
   setTasks((current) => current.map((task) => task.id === id ? { ...task, description } : task))
 };
 
+const handleAddTask = (data: AddTaskData) => {
+  setTasks((current) => [...current, { ...data, id: current.length + 1 }]);
+  setIsAdding(false);
+};
+
+
+const updatePriority = (id: number, newPriority: number) => {
+  setTasks((current) => current.map((task) => task.id === id ? {...task, priority: newPriority} : task))
+}
+
+
+useEffect ( () => {
+  localStorage.setItem("Task", JSON.stringify(tasks))
+}, [tasks])
 
 
 const columns: ColumnData[] = statuses.map((status) => {
@@ -55,13 +91,24 @@ const columns: ColumnData[] = statuses.map((status) => {
           type="button"
           variant="default"
           size="sm"
+          onClick={() => setIsAdding(true)}
         >
           Add Task
         </Button>
       </div>
+
+
+      <AddTaskForm
+        open={isAdding}
+        onAddTask={handleAddTask}
+        onCancel={() => setIsAdding(false)}
+      />
+
+
+
       <div className="flex items-start gap-5">
         {columns.map((column) => (
-          <Column key={column.status} column={column} onDelete={deleteTask} onUpdate={updateTask} />
+          <Column key={column.status} column={column} onDelete={deleteTask} onUpdate={updateTask} onUpdateDescription={updateDescription} onPriorityChange={updatePriority}/>
         ))}
       </div>
     </div>
