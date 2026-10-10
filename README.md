@@ -1,76 +1,94 @@
-# React + TypeScript + Vite
+# Kanban Board
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A task management app built with React, TypeScript, and Tailwind CSS. Organize tasks across workflow columns, manage priorities, and keep your changes saved locally.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Task management** — Create, edit, and delete tasks.
+- **Workflow columns** — Organize tasks into To Do, In Progress, and Done.
+- **Drag and drop** — Move tasks between columns.
+- **Priority management** — Increase or decrease task priorities, with tasks automatically sorted by priority.
+- **Inline editing** — Update task titles and descriptions.
+- **Persistent storage** — Tasks remain saved after refreshing the page using browser localStorage.
+- **Responsive UI** — A clean interface for managing tasks.
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- dnd-kit
+- Browser localStorage
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Prerequisites
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Node.js
+- npm
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Installation
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+1. Clone the repository:
 
-```
+   ```bash
+   git clone <your-repository-url>
+   ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+2. Navigate to the project directory:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+   ```bash
+   cd <project-directory>
+   ```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+3. Install dependencies:
 
-```
-# kanban
+   ```bash
+   npm install
+   ```
+
+4. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+5. Open the local URL displayed in your terminal.
+
+## How It Works
+
+Tasks are stored in React state and assigned a status: `todo`, `doing`, or `done`.
+
+The board groups tasks by status and sorts them by priority. When a task is moved to another column, its status updates and the board re-renders automatically.
+
+Task data is persisted in the browser's localStorage, so changes survive page refreshes on the same browser.
+
+## What I Learned
+
+Building this project helped me practice:
+
+- React component composition and reusable UI.
+- TypeScript types and component props.
+- State management with `useState`.
+- Updating arrays immutably.
+- Passing callbacks between components.
+- Handling drag-and-drop interactions.
+- Persisting application state with `useEffect` and localStorage.
+
+## Current Limitations
+
+- Task data is stored locally in the browser.
+- There is no backend, database, or user authentication.
+- Tasks are not synchronized across devices or browsers.
+
+## Future Improvements
+
+- Backend integration and database persistence.
+- User authentication and individual boards.
+- Due dates, labels, and task search.
+- Improved accessibility and mobile drag-and-drop interactions.
+
+## License
+
+This project is open source. Add a license file if you intend to distribute it under a specific license.
